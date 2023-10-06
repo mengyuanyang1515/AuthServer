@@ -1,0 +1,53 @@
+// protoc.exe -I=./ --cpp_out=./ auth.proto
+syntax = "proto3";
+package auth;
+
+
+message RegisterReq {
+	string name = 1;
+	string passwd = 2;
+}
+
+message RegisterAck {
+	bool is_ok = 1;
+	string error_info = 2;
+}
+
+message LoginReq {
+	string name = 1;
+	string passwd = 2;
+}
+
+message LoginAck {
+	bool is_ok = 1;
+	string token = 2;
+}
+
+message LandingReq {
+	string token = 1;
+}
+
+message LandingAck {
+	bool is_ok = 1;
+	string error_info = 2;
+}
+
+message AuthReq {
+	string token = 1;
+}
+
+message AuthAck {
+	bool is_ok = 1;
+	string name = 2;
+}
+
+message QuitReq {
+
+}
+
+message QuitAck {
+	bool is_ok = 1;
+	string err_info = 2;
+}
+
+
