@@ -22,8 +22,10 @@ class LoginManager : public QObject
     };
     
 signals:
-    void loginSuccess(bool success);
-    void registerSuccess(bool success);
+    void registerCallback(bool success);
+    void loginCallback(bool success);
+    void quitCallback(bool success);
+
     
 public:
     explicit LoginManager(QObject  *parent = nullptr);

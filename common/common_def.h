@@ -11,8 +11,8 @@ enum MessageId
     kLandingAck,
     kAuthReq,
     kAuthAck,
-    KQuitReq,
-    KQuitAck,
+    kQuitReq,
+    kQuitAck,
     kMax
 };
 

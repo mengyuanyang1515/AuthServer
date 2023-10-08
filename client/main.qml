@@ -27,14 +27,7 @@ ApplicationWindow {
             Layout.fillWidth: true
             Connections {
                 target: loginManager
-                onLoginSuccess: {
-                    if (success) {
-                        loginStatusText.text = "登录成功";
-                    } else {
-                        loginStatusText.text = "登录失败";
-                    }
-                }
-                onRegisterSuccess: {
+                onRegisterCallback: {
                     if (success) {
                         loginStatusText.text = "注册成功";
                         success=false;
@@ -42,6 +35,22 @@ ApplicationWindow {
                         loginStatusText.text = "注册失败";
                     }
                 }
+                onLoginCallback: {
+                    if (success) {
+                        loginStatusText.text = "登录成功";
+                    } else {
+                        loginStatusText.text = "登录失败";
+                    }
+                }
+                onQuitCallback: {
+                    if (success) {
+                        loginStatusText.text = "退出成功";
+                        success=false;
+                    } else {
+                        loginStatusText.text = "退出失败";
+                    }
+                }
+
             }
         }
         TextField {

@@ -32,8 +32,8 @@ private:
     void HandleAuthAck(auth::AuthAck& ack);
     void SendAuthReq(QTcpSocket *socket);
         
-    void HandleQuitReq(auth::QuitReq& req);
-    void SendQuitAck(auth::QuitAck& ack);
+    void HandleQuitReq(QTcpSocket* socket, auth::QuitReq& req);
+    void SendQuitAck(QTcpSocket* socket);
     
 private:
     QTcpServer *tcp_server_;

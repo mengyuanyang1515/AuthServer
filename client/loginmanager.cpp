@@ -69,7 +69,7 @@ void LoginManager::handleLogin(const QString &username, const QString &password)
 
 void LoginManager::handleQuit()
 {
-    
+    this->SendQuitReq(tcp_client_);
 }
 
 void LoginManager::connected()
@@ -92,17 +92,26 @@ void LoginManager::connected()
         connect(socket, &QTcpSocket::readyRead, &net_codec_, &NetCodec::ReadyRead);     
     }
 
-    if (state_ == LoginState_Register)
+    switch(state_)
     {
+    case LoginState_Register:
+    {
+        
         SendRegisterReq(tcp_client_);
+        break;
     }
-    else if (state_ == LoginState_Login)
+    case LoginState_Login:
     {
         SendLoginReq(tcp_client_);
+        break;
     }
-    else if (state_ == LoginState_Landing)
+    case LoginState_Landing:
     {
         SendLandingReq(tcp_client_);
+        break;
+    }
+    default:
+        break;
     }
 }
 
@@ -147,7 +156,7 @@ void LoginManager::HandleMessage(QTcpSocket* socket, unsigned int message_id, co
         HandleLandingAck(ladingAck);  // 这里是长连接，不断开，后面如果退出，后面可以退出
         break;
     }
-    case MessageId::KQuitAck:
+    case MessageId::kQuitAck:
     {
         auth::QuitAck quitAck;
         quitAck.ParseFromString(data);
@@ -179,7 +188,7 @@ void LoginManager::HandleRegisterAck(auth::RegisterAck ack)// todo:yangmengyuan 
     
     qDebug() << "trace log 3 LoginManager::HandleRegisterAck, is_ok:" << is_ok << " error_info:" << error_info.c_str();
     
-    emit registerSuccess(is_ok);
+    emit registerCallback(is_ok);
 }
 
 
@@ -212,7 +221,7 @@ void LoginManager::HandleLoginAck(QTcpSocket* socket, auth::LoginAck ack)// todo
         
         token_ = token;
     } else {
-        emit loginSuccess(is_ok);
+        emit loginCallback(is_ok);
     }
 }
 
@@ -232,18 +241,24 @@ void LoginManager::HandleLandingAck(auth::LandingAck ack)// todo:yangmengyuan #1
     
     qDebug() << "trace log 16 Received LandingAck, is_ok:" << is_ok;
     
-    emit loginSuccess(is_ok);
+    emit loginCallback(is_ok);
 }
 
 
 void LoginManager::SendQuitReq(QTcpSocket* socket)
 {
-    
+    qDebug() << "trace log 17 LoginManager::SendQuitReq";
+    auth::QuitReq quitReq;
+    std::string data;
+    quitReq.SerializeToString(&data);
+    net_codec_.WriteMessage(MessageId::kQuitReq, data.c_str(), data.size(), socket);
 }
 
 void LoginManager::HandleQuitAck(auth::QuitAck ack)
 {
-    
+    qDebug() << "trace log 20 LoginManager::SendQuitReq";
+    emit quitCallback(true);
+    tcp_client_->close();
 }
 
 

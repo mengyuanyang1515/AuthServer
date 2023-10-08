@@ -53,6 +53,7 @@ void NetCodec::ReadyRead()
         tcp_socket_info.byte_array_.append(socket->read(kReadSocketLen));
         if (tcp_socket_info.byte_array_.size() >= kHeaderLen + kMessageIdLen) // 2个字节的长度 和 4个字节的 message_id
         {
+            // 需要处理大小端数据
             short len = qFromBigEndian<short>((uchar*)tcp_socket_info.byte_array_.left(kHeaderLen).data());
             qDebug() << "kHeaderLen:" << kHeaderLen << " kMessageIdLen:" << kMessageIdLen << " 粘包 len:" << len;
             if (tcp_socket_info.byte_array_.size() >= (len + kHeaderLen))

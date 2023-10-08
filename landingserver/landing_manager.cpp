@@ -96,11 +96,11 @@ void LandingManager::HandleMessage(QTcpSocket *socket, unsigned int message_id, 
         socket->close();
         break;
     }
-    case MessageId::KQuitReq:
+    case MessageId::kQuitReq:
     {
         auth::QuitReq quitReq;
         quitReq.ParseFromString(data);
-        HandleQuitReq(quitReq);
+        HandleQuitReq(socket, quitReq);
         break;
     }
     default:
@@ -134,6 +134,7 @@ void LandingManager::SendLandingAck(bool is_ok, const std::string& token) // tod
     if (it != connected_clients_.end())
     {
         net_codec_.WriteMessage(MessageId::kLandingAck, data.c_str(), data.size(), it->second);
+        connected_clients_.erase(it);
     }
 }
 
@@ -161,14 +162,24 @@ void LandingManager::SendAuthReq(QTcpSocket *socket) // todo:yangmengyuan #11
 }
 
 
-void LandingManager::HandleQuitReq(auth::QuitReq& req)
+void LandingManager::HandleQuitReq(QTcpSocket* socket, auth::QuitReq& req)
 {
-    
+     qDebug() << "trace log 18 LandingManager::HandleQuitReq";
+     // 理论上，这里应该有登录的现场需要删除，现在实现简单，没有任何现场数据，直接回复消息
+     this->SendQuitAck(socket);
 }
 
-void LandingManager::SendQuitAck(auth::QuitAck& ack)
+void LandingManager::SendQuitAck(QTcpSocket* socket)
 {
+    qDebug() << "trace log 19 LandingManager::SendQuitAck";
     
+    // 理论上，这里应该有登录的现场需要删除，现在实现简单，没有任何现场数据，直接回复消息
+    auth::QuitAck quitAck;
+    quitAck.set_is_ok(true);
+    quitAck.set_err_info("");
+    std::string data;
+    quitAck.SerializeToString(&data);
+    net_codec_.WriteMessage(MessageId::kQuitAck, data.c_str(), data.size(), socket);
 }
 
 
