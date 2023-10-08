@@ -29,7 +29,6 @@ message LandingReq {
 
 message LandingAck {
 	bool is_ok = 1;
-	string error_info = 2;
 }
 
 message AuthReq {
@@ -38,7 +37,7 @@ message AuthReq {
 
 message AuthAck {
 	bool is_ok = 1;
-	string name = 2;
+	string token = 2;
 }
 
 message QuitReq {

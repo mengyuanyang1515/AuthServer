@@ -13,7 +13,7 @@ class AuthManager : public QObject
     
 public:
     AuthManager(QObject *parent = 0);
-    
+
     void Initialize();
     
 private slots:
@@ -30,7 +30,7 @@ private:
     void SendLoginAck(QTcpSocket* socket, bool is_ok, const std::string& name);
         
     void HandleAuthReq(QTcpSocket* socket, auth::AuthReq& req);
-    void SendAuthAck(QTcpSocket* socket, bool is_ok, const std::string& ret_name);
+    void SendAuthAck(QTcpSocket* socket, bool is_ok, const std::string& token);
     
 private:
     QTcpServer* tcp_server_;

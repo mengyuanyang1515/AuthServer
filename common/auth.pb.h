@@ -629,20 +629,6 @@ class LandingAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // string error_info = 2;
-  void clear_error_info();
-  static const int kErrorInfoFieldNumber = 2;
-  const ::std::string& error_info() const;
-  void set_error_info(const ::std::string& value);
-  #if LANG_CXX11
-  void set_error_info(::std::string&& value);
-  #endif
-  void set_error_info(const char* value);
-  void set_error_info(const char* value, size_t size);
-  ::std::string* mutable_error_info();
-  ::std::string* release_error_info();
-  void set_allocated_error_info(::std::string* error_info);
-
   // bool is_ok = 1;
   void clear_is_ok();
   static const int kIsOkFieldNumber = 1;
@@ -653,7 +639,6 @@ class LandingAck : public ::google::protobuf::Message /* @@protoc_insertion_poin
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr error_info_;
   bool is_ok_;
   mutable int _cached_size_;
   friend struct protobuf_auth_2eproto::TableStruct;
@@ -812,19 +797,19 @@ class AuthAck : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // string name = 2;
-  void clear_name();
-  static const int kNameFieldNumber = 2;
-  const ::std::string& name() const;
-  void set_name(const ::std::string& value);
+  // string token = 2;
+  void clear_token();
+  static const int kTokenFieldNumber = 2;
+  const ::std::string& token() const;
+  void set_token(const ::std::string& value);
   #if LANG_CXX11
-  void set_name(::std::string&& value);
+  void set_token(::std::string&& value);
   #endif
-  void set_name(const char* value);
-  void set_name(const char* value, size_t size);
-  ::std::string* mutable_name();
-  ::std::string* release_name();
-  void set_allocated_name(::std::string* name);
+  void set_token(const char* value);
+  void set_token(const char* value, size_t size);
+  ::std::string* mutable_token();
+  ::std::string* release_token();
+  void set_allocated_token(::std::string* token);
 
   // bool is_ok = 1;
   void clear_is_ok();
@@ -836,7 +821,7 @@ class AuthAck : public ::google::protobuf::Message /* @@protoc_insertion_point(c
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::internal::ArenaStringPtr token_;
   bool is_ok_;
   mutable int _cached_size_;
   friend struct protobuf_auth_2eproto::TableStruct;
@@ -1450,59 +1435,6 @@ inline void LandingAck::set_is_ok(bool value) {
   // @@protoc_insertion_point(field_set:auth.LandingAck.is_ok)
 }
 
-// string error_info = 2;
-inline void LandingAck::clear_error_info() {
-  error_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& LandingAck::error_info() const {
-  // @@protoc_insertion_point(field_get:auth.LandingAck.error_info)
-  return error_info_.GetNoArena();
-}
-inline void LandingAck::set_error_info(const ::std::string& value) {
-  
-  error_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:auth.LandingAck.error_info)
-}
-#if LANG_CXX11
-inline void LandingAck::set_error_info(::std::string&& value) {
-  
-  error_info_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:auth.LandingAck.error_info)
-}
-#endif
-inline void LandingAck::set_error_info(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  error_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:auth.LandingAck.error_info)
-}
-inline void LandingAck::set_error_info(const char* value, size_t size) {
-  
-  error_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:auth.LandingAck.error_info)
-}
-inline ::std::string* LandingAck::mutable_error_info() {
-  
-  // @@protoc_insertion_point(field_mutable:auth.LandingAck.error_info)
-  return error_info_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* LandingAck::release_error_info() {
-  // @@protoc_insertion_point(field_release:auth.LandingAck.error_info)
-  
-  return error_info_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void LandingAck::set_allocated_error_info(::std::string* error_info) {
-  if (error_info != NULL) {
-    
-  } else {
-    
-  }
-  error_info_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error_info);
-  // @@protoc_insertion_point(field_set_allocated:auth.LandingAck.error_info)
-}
-
 // -------------------------------------------------------------------
 
 // AuthReq
@@ -1578,57 +1510,57 @@ inline void AuthAck::set_is_ok(bool value) {
   // @@protoc_insertion_point(field_set:auth.AuthAck.is_ok)
 }
 
-// string name = 2;
-inline void AuthAck::clear_name() {
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// string token = 2;
+inline void AuthAck::clear_token() {
+  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& AuthAck::name() const {
-  // @@protoc_insertion_point(field_get:auth.AuthAck.name)
-  return name_.GetNoArena();
+inline const ::std::string& AuthAck::token() const {
+  // @@protoc_insertion_point(field_get:auth.AuthAck.token)
+  return token_.GetNoArena();
 }
-inline void AuthAck::set_name(const ::std::string& value) {
+inline void AuthAck::set_token(const ::std::string& value) {
   
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:auth.AuthAck.name)
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:auth.AuthAck.token)
 }
 #if LANG_CXX11
-inline void AuthAck::set_name(::std::string&& value) {
+inline void AuthAck::set_token(::std::string&& value) {
   
-  name_.SetNoArena(
+  token_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:auth.AuthAck.name)
+  // @@protoc_insertion_point(field_set_rvalue:auth.AuthAck.token)
 }
 #endif
-inline void AuthAck::set_name(const char* value) {
+inline void AuthAck::set_token(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:auth.AuthAck.name)
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:auth.AuthAck.token)
 }
-inline void AuthAck::set_name(const char* value, size_t size) {
+inline void AuthAck::set_token(const char* value, size_t size) {
   
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:auth.AuthAck.name)
+  // @@protoc_insertion_point(field_set_pointer:auth.AuthAck.token)
 }
-inline ::std::string* AuthAck::mutable_name() {
+inline ::std::string* AuthAck::mutable_token() {
   
-  // @@protoc_insertion_point(field_mutable:auth.AuthAck.name)
-  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:auth.AuthAck.token)
+  return token_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* AuthAck::release_name() {
-  // @@protoc_insertion_point(field_release:auth.AuthAck.name)
+inline ::std::string* AuthAck::release_token() {
+  // @@protoc_insertion_point(field_release:auth.AuthAck.token)
   
-  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return token_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void AuthAck::set_allocated_name(::std::string* name) {
-  if (name != NULL) {
+inline void AuthAck::set_allocated_token(::std::string* token) {
+  if (token != NULL) {
     
   } else {
     
   }
-  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:auth.AuthAck.name)
+  token_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), token);
+  // @@protoc_insertion_point(field_set_allocated:auth.AuthAck.token)
 }
 
 // -------------------------------------------------------------------

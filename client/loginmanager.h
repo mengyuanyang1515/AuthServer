@@ -21,11 +21,15 @@ class LoginManager : public QObject
         LoginState_Max
     };
     
+signals:
+    void loginSuccess(bool success);
+    void registerSuccess(bool success);
+    
 public:
-    explicit LoginManager(QObject *parent = nullptr);
-    void     Initialize();
+    explicit LoginManager(QObject  *parent = nullptr);
+    void Initialize();
     void setQmlEngine(QQmlApplicationEngine* engine);
-
+    
 public slots:
     void handleRegister(const QString &username, const QString &password);
     void handleLogin(const QString &username, const QString &password);

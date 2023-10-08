@@ -112,7 +112,6 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LandingAck, is_ok_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LandingAck, error_info_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AuthReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -125,7 +124,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AuthAck, is_ok_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AuthAck, name_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AuthAck, token_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(QuitReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -147,10 +146,10 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] = {
   { 21, -1, sizeof(LoginAck)},
   { 28, -1, sizeof(LandingReq)},
   { 34, -1, sizeof(LandingAck)},
-  { 41, -1, sizeof(AuthReq)},
-  { 47, -1, sizeof(AuthAck)},
-  { 54, -1, sizeof(QuitReq)},
-  { 59, -1, sizeof(QuitAck)},
+  { 40, -1, sizeof(AuthReq)},
+  { 46, -1, sizeof(AuthAck)},
+  { 53, -1, sizeof(QuitReq)},
+  { 58, -1, sizeof(QuitAck)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -240,15 +239,14 @@ void AddDescriptorsImpl() {
       "\n\005is_ok\030\001 \001(\010\022\022\n\nerror_info\030\002 \001(\t\"(\n\010Log"
       "inReq\022\014\n\004name\030\001 \001(\t\022\016\n\006passwd\030\002 \001(\t\"(\n\010L"
       "oginAck\022\r\n\005is_ok\030\001 \001(\010\022\r\n\005token\030\002 \001(\t\"\033\n"
-      "\nLandingReq\022\r\n\005token\030\001 \001(\t\"/\n\nLandingAck"
-      "\022\r\n\005is_ok\030\001 \001(\010\022\022\n\nerror_info\030\002 \001(\t\"\030\n\007A"
-      "uthReq\022\r\n\005token\030\001 \001(\t\"&\n\007AuthAck\022\r\n\005is_o"
-      "k\030\001 \001(\010\022\014\n\004name\030\002 \001(\t\"\t\n\007QuitReq\"*\n\007Quit"
-      "Ack\022\r\n\005is_ok\030\001 \001(\010\022\020\n\010err_info\030\002 \001(\tb\006pr"
-      "oto3"
+      "\nLandingReq\022\r\n\005token\030\001 \001(\t\"\033\n\nLandingAck"
+      "\022\r\n\005is_ok\030\001 \001(\010\"\030\n\007AuthReq\022\r\n\005token\030\001 \001("
+      "\t\"\'\n\007AuthAck\022\r\n\005is_ok\030\001 \001(\010\022\r\n\005token\030\002 \001"
+      "(\t\"\t\n\007QuitReq\"*\n\007QuitAck\022\r\n\005is_ok\030\001 \001(\010\022"
+      "\020\n\010err_info\030\002 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 404);
+      descriptor, 385);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "auth.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -2049,7 +2047,6 @@ void LandingReq::set_allocated_token(::std::string* token) {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int LandingAck::kIsOkFieldNumber;
-const int LandingAck::kErrorInfoFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 LandingAck::LandingAck()
@@ -2065,16 +2062,11 @@ LandingAck::LandingAck(const LandingAck& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  error_info_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.error_info().size() > 0) {
-    error_info_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_info_);
-  }
   is_ok_ = from.is_ok_;
   // @@protoc_insertion_point(copy_constructor:auth.LandingAck)
 }
 
 void LandingAck::SharedCtor() {
-  error_info_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   is_ok_ = false;
   _cached_size_ = 0;
 }
@@ -2085,7 +2077,6 @@ LandingAck::~LandingAck() {
 }
 
 void LandingAck::SharedDtor() {
-  error_info_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void LandingAck::SetCachedSize(int size) const {
@@ -2113,7 +2104,6 @@ LandingAck* LandingAck::New(::google::protobuf::Arena* arena) const {
 
 void LandingAck::Clear() {
 // @@protoc_insertion_point(message_clear_start:auth.LandingAck)
-  error_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   is_ok_ = false;
 }
 
@@ -2135,22 +2125,6 @@ bool LandingAck::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &is_ok_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // string error_info = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_error_info()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->error_info().data(), this->error_info().length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "auth.LandingAck.error_info"));
         } else {
           goto handle_unusual;
         }
@@ -2189,16 +2163,6 @@ void LandingAck::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->is_ok(), output);
   }
 
-  // string error_info = 2;
-  if (this->error_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->error_info().data(), this->error_info().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "auth.LandingAck.error_info");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->error_info(), output);
-  }
-
   // @@protoc_insertion_point(serialize_end:auth.LandingAck)
 }
 
@@ -2213,17 +2177,6 @@ void LandingAck::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->is_ok(), target);
   }
 
-  // string error_info = 2;
-  if (this->error_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->error_info().data(), this->error_info().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "auth.LandingAck.error_info");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->error_info(), target);
-  }
-
   // @@protoc_insertion_point(serialize_to_array_end:auth.LandingAck)
   return target;
 }
@@ -2231,13 +2184,6 @@ void LandingAck::SerializeWithCachedSizes(
 size_t LandingAck::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:auth.LandingAck)
   size_t total_size = 0;
-
-  // string error_info = 2;
-  if (this->error_info().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->error_info());
-  }
 
   // bool is_ok = 1;
   if (this->is_ok() != 0) {
@@ -2273,10 +2219,6 @@ void LandingAck::MergeFrom(const LandingAck& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.error_info().size() > 0) {
-
-    error_info_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.error_info_);
-  }
   if (from.is_ok() != 0) {
     set_is_ok(from.is_ok());
   }
@@ -2305,7 +2247,6 @@ void LandingAck::Swap(LandingAck* other) {
   InternalSwap(other);
 }
 void LandingAck::InternalSwap(LandingAck* other) {
-  error_info_.Swap(&other->error_info_);
   std::swap(is_ok_, other->is_ok_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -2330,59 +2271,6 @@ void LandingAck::set_is_ok(bool value) {
   
   is_ok_ = value;
   // @@protoc_insertion_point(field_set:auth.LandingAck.is_ok)
-}
-
-// string error_info = 2;
-void LandingAck::clear_error_info() {
-  error_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-const ::std::string& LandingAck::error_info() const {
-  // @@protoc_insertion_point(field_get:auth.LandingAck.error_info)
-  return error_info_.GetNoArena();
-}
-void LandingAck::set_error_info(const ::std::string& value) {
-  
-  error_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:auth.LandingAck.error_info)
-}
-#if LANG_CXX11
-void LandingAck::set_error_info(::std::string&& value) {
-  
-  error_info_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:auth.LandingAck.error_info)
-}
-#endif
-void LandingAck::set_error_info(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  error_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:auth.LandingAck.error_info)
-}
-void LandingAck::set_error_info(const char* value, size_t size) {
-  
-  error_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:auth.LandingAck.error_info)
-}
-::std::string* LandingAck::mutable_error_info() {
-  
-  // @@protoc_insertion_point(field_mutable:auth.LandingAck.error_info)
-  return error_info_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-::std::string* LandingAck::release_error_info() {
-  // @@protoc_insertion_point(field_release:auth.LandingAck.error_info)
-  
-  return error_info_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-void LandingAck::set_allocated_error_info(::std::string* error_info) {
-  if (error_info != NULL) {
-    
-  } else {
-    
-  }
-  error_info_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error_info);
-  // @@protoc_insertion_point(field_set_allocated:auth.LandingAck.error_info)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -2682,7 +2570,7 @@ void AuthReq::set_allocated_token(::std::string* token) {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AuthAck::kIsOkFieldNumber;
-const int AuthAck::kNameFieldNumber;
+const int AuthAck::kTokenFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AuthAck::AuthAck()
@@ -2698,16 +2586,16 @@ AuthAck::AuthAck(const AuthAck& from)
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.name().size() > 0) {
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+  token_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.token().size() > 0) {
+    token_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.token_);
   }
   is_ok_ = from.is_ok_;
   // @@protoc_insertion_point(copy_constructor:auth.AuthAck)
 }
 
 void AuthAck::SharedCtor() {
-  name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  token_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   is_ok_ = false;
   _cached_size_ = 0;
 }
@@ -2718,7 +2606,7 @@ AuthAck::~AuthAck() {
 }
 
 void AuthAck::SharedDtor() {
-  name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  token_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void AuthAck::SetCachedSize(int size) const {
@@ -2746,7 +2634,7 @@ AuthAck* AuthAck::New(::google::protobuf::Arena* arena) const {
 
 void AuthAck::Clear() {
 // @@protoc_insertion_point(message_clear_start:auth.AuthAck)
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   is_ok_ = false;
 }
 
@@ -2774,16 +2662,16 @@ bool AuthAck::MergePartialFromCodedStream(
         break;
       }
 
-      // string name = 2;
+      // string token = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_name()));
+                input, this->mutable_token()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->name().data(), this->name().length(),
+            this->token().data(), this->token().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "auth.AuthAck.name"));
+            "auth.AuthAck.token"));
         } else {
           goto handle_unusual;
         }
@@ -2822,14 +2710,14 @@ void AuthAck::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->is_ok(), output);
   }
 
-  // string name = 2;
-  if (this->name().size() > 0) {
+  // string token = 2;
+  if (this->token().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), this->name().length(),
+      this->token().data(), this->token().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "auth.AuthAck.name");
+      "auth.AuthAck.token");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->name(), output);
+      2, this->token(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:auth.AuthAck)
@@ -2846,15 +2734,15 @@ void AuthAck::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->is_ok(), target);
   }
 
-  // string name = 2;
-  if (this->name().size() > 0) {
+  // string token = 2;
+  if (this->token().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->name().data(), this->name().length(),
+      this->token().data(), this->token().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "auth.AuthAck.name");
+      "auth.AuthAck.token");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->name(), target);
+        2, this->token(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:auth.AuthAck)
@@ -2865,11 +2753,11 @@ size_t AuthAck::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:auth.AuthAck)
   size_t total_size = 0;
 
-  // string name = 2;
-  if (this->name().size() > 0) {
+  // string token = 2;
+  if (this->token().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->name());
+        this->token());
   }
 
   // bool is_ok = 1;
@@ -2906,9 +2794,9 @@ void AuthAck::MergeFrom(const AuthAck& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.name().size() > 0) {
+  if (from.token().size() > 0) {
 
-    name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.name_);
+    token_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.token_);
   }
   if (from.is_ok() != 0) {
     set_is_ok(from.is_ok());
@@ -2938,7 +2826,7 @@ void AuthAck::Swap(AuthAck* other) {
   InternalSwap(other);
 }
 void AuthAck::InternalSwap(AuthAck* other) {
-  name_.Swap(&other->name_);
+  token_.Swap(&other->token_);
   std::swap(is_ok_, other->is_ok_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -2965,57 +2853,57 @@ void AuthAck::set_is_ok(bool value) {
   // @@protoc_insertion_point(field_set:auth.AuthAck.is_ok)
 }
 
-// string name = 2;
-void AuthAck::clear_name() {
-  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// string token = 2;
+void AuthAck::clear_token() {
+  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-const ::std::string& AuthAck::name() const {
-  // @@protoc_insertion_point(field_get:auth.AuthAck.name)
-  return name_.GetNoArena();
+const ::std::string& AuthAck::token() const {
+  // @@protoc_insertion_point(field_get:auth.AuthAck.token)
+  return token_.GetNoArena();
 }
-void AuthAck::set_name(const ::std::string& value) {
+void AuthAck::set_token(const ::std::string& value) {
   
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:auth.AuthAck.name)
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:auth.AuthAck.token)
 }
 #if LANG_CXX11
-void AuthAck::set_name(::std::string&& value) {
+void AuthAck::set_token(::std::string&& value) {
   
-  name_.SetNoArena(
+  token_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:auth.AuthAck.name)
+  // @@protoc_insertion_point(field_set_rvalue:auth.AuthAck.token)
 }
 #endif
-void AuthAck::set_name(const char* value) {
+void AuthAck::set_token(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:auth.AuthAck.name)
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:auth.AuthAck.token)
 }
-void AuthAck::set_name(const char* value, size_t size) {
+void AuthAck::set_token(const char* value, size_t size) {
   
-  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:auth.AuthAck.name)
+  // @@protoc_insertion_point(field_set_pointer:auth.AuthAck.token)
 }
-::std::string* AuthAck::mutable_name() {
+::std::string* AuthAck::mutable_token() {
   
-  // @@protoc_insertion_point(field_mutable:auth.AuthAck.name)
-  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:auth.AuthAck.token)
+  return token_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-::std::string* AuthAck::release_name() {
-  // @@protoc_insertion_point(field_release:auth.AuthAck.name)
+::std::string* AuthAck::release_token() {
+  // @@protoc_insertion_point(field_release:auth.AuthAck.token)
   
-  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return token_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-void AuthAck::set_allocated_name(::std::string* name) {
-  if (name != NULL) {
+void AuthAck::set_allocated_token(::std::string* token) {
+  if (token != NULL) {
     
   } else {
     
   }
-  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:auth.AuthAck.name)
+  token_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), token);
+  // @@protoc_insertion_point(field_set_allocated:auth.AuthAck.token)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

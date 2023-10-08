@@ -14,7 +14,6 @@ class LandingManager : public QObject
     Q_OBJECT
 public:
     explicit LandingManager(QObject *parent = nullptr);
-    
     void Initialize();
 
 private slots:
@@ -27,8 +26,8 @@ private slots:
 private:
     void HandleMessage(QTcpSocket *socket, unsigned int message_id, const char* data, int len);
     
-    void HandleLandingReq(auth::LandingReq& req);
-    void SendLandingAck(bool is_ok, const std::string& error_info);
+    void HandleLandingReq(QTcpSocket* socket, auth::LandingReq& req);
+    void SendLandingAck(bool is_ok, const std::string& token);
     
     void HandleAuthAck(auth::AuthAck& ack);
     void SendAuthReq(QTcpSocket *socket);
@@ -37,12 +36,14 @@ private:
     void SendQuitAck(auth::QuitAck& ack);
     
 private:
-    QTcpServer *tcp_server;
+    QTcpServer *tcp_server_;
     QTcpSocket *tcp_client_;
     //QTcpSocket *client_;
     
     std::string token_;
     NetCodec net_codec_;
+    
+    std::map<std::string, QTcpSocket*> connected_clients_;
 };
 
 #endif // LANDING_MANAGER_H

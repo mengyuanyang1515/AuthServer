@@ -179,16 +179,16 @@ void AuthManager::HandleAuthReq(QTcpSocket* socket, auth::AuthReq &req) // todo:
         g_user_token_map.erase(it); // 理论上token需要保存一段时间然后过期，类似于手游的登录流程，现在简单点，直接删除
     }
     
-    this->SendAuthAck(socket, is_ok, ret_name);
+    this->SendAuthAck(socket, is_ok, token);
 }
 
-void AuthManager::SendAuthAck(QTcpSocket* socket, bool is_ok, const std::string& ret_name) // todo:yangmengyuan  #13
+void AuthManager::SendAuthAck(QTcpSocket* socket, bool is_ok, const std::string& token) // todo:yangmengyuan  #13
 {
-    qDebug() << "trace log 13 AuthManager::SendAuthAck, is_ok:" << is_ok << " ret name:" << ret_name.c_str();
+    qDebug() << "trace log 13 AuthManager::SendAuthAck, is_ok:" << is_ok << " token:" << token.c_str();
     
     auth::AuthAck auth_ack;
     auth_ack.set_is_ok(is_ok);
-    auth_ack.set_name(ret_name);
+    auth_ack.set_token(token);
     std::string data;
     auth_ack.SerializeToString(&data);
 

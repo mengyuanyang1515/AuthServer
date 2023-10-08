@@ -8,11 +8,11 @@
 
 LandingManager::LandingManager(QObject *parent) : QObject(parent), net_codec_(parent){
     qDebug() << "开始landingServer的构造函数";
-    tcp_server = new QTcpServer(this);
+    tcp_server_ = new QTcpServer(this);
 
-    connect(tcp_server, &QTcpServer::newConnection, this, &LandingManager::newConnection);
+    connect(tcp_server_, &QTcpServer::newConnection, this, &LandingManager::newConnection);
 
-    if (!tcp_server->listen(QHostAddress::SpecialAddress::LocalHost, 6060)){
+    if (!tcp_server_->listen(QHostAddress::SpecialAddress::LocalHost, 6060)){
         qDebug() << "landing Server 启动失败";
     }
     else{
@@ -33,7 +33,7 @@ void LandingManager::Initialize(){
 }
 
 void LandingManager::newConnection(){
-    QTcpSocket *socket = tcp_server->nextPendingConnection();
+    QTcpSocket *socket = tcp_server_->nextPendingConnection();
     
     connect(socket,&QTcpSocket::disconnected,this,&LandingManager::disconnected);
     
@@ -54,6 +54,13 @@ void LandingManager::disconnected(){
 }
 
 void LandingManager::clientConnected(){
+    QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
+    qDebug() << "从LandingServer连接到AuthServer成功，socket:" << socket << "tcp_client_:" << tcp_client_;
+    if(socket != nullptr){
+        net_codec_.RegisterSocket(socket);
+        connect(socket,&QTcpSocket::readyRead,&net_codec_,&NetCodec::ReadyRead);
+    }
+    
     this->SendAuthReq(tcp_client_);
 }
 
@@ -78,7 +85,7 @@ void LandingManager::HandleMessage(QTcpSocket *socket, unsigned int message_id, 
     {
         auth::LandingReq landingReq;
         landingReq.ParseFromString(data);
-        HandleLandingReq(landingReq);
+        HandleLandingReq(socket, landingReq);
         break;
     }
     case MessageId::kAuthAck:
@@ -101,36 +108,44 @@ void LandingManager::HandleMessage(QTcpSocket *socket, unsigned int message_id, 
     }
 }
 
-void LandingManager::HandleLandingReq(auth::LandingReq &req) // todo:yangmengyuan #10
+void LandingManager::HandleLandingReq(QTcpSocket* socket, auth::LandingReq &req) // todo:yangmengyuan #10
 {
     token_ = req.token();
+    
+    if (connected_clients_.find(token_) == connected_clients_.end())
+    {
+        connected_clients_[token_] = socket;
+    }
     
     qDebug() << "trace log 10 LandingManager::HandleLandingReq" << " token:" << token_.c_str();
     
     tcp_client_->connectToHost("localhost", 5060);
 }
 
-void LandingManager::SendLandingAck(bool is_ok, const std::string& error_info) // todo:yangmengyuan #15
+void LandingManager::SendLandingAck(bool is_ok, const std::string& token) // todo:yangmengyuan #15
 {
-    qDebug() << "trace log 15 LandingManager::SendLandingAck";
+    qDebug() << "trace log 15 LandingManager::SendLandingAck, token:" << token.c_str();
     auth::LandingAck landingAck;
     landingAck.set_is_ok(is_ok);
-    landingAck.set_error_info(error_info);
     std::string data;
     landingAck.SerializeToString(&data);
-
-    net_codec_.WriteMessage(MessageId::kLandingAck, data.c_str(), data.size());
+    
+    auto it = connected_clients_.find(token);
+    if (it != connected_clients_.end())
+    {
+        net_codec_.WriteMessage(MessageId::kLandingAck, data.c_str(), data.size(), it->second);
+    }
 }
 
 
 void LandingManager::HandleAuthAck(auth::AuthAck& ack)  // todo:yangmengyuan #14
 {
     bool is_ok = ack.is_ok();
-    std::string name = ack.name();
+    std::string token = ack.token();
     
-    qDebug() << "trace log 14 LandingManager::handAuthAck, is_ok:" << is_ok << " name:" << name.c_str();
+    qDebug() << "trace log 14 LandingManager::handAuthAck, is_ok:" << is_ok << " token:" << token.c_str();
     
-    this->SendLandingAck(is_ok, name);
+    this->SendLandingAck(is_ok, token);
 }
 
 

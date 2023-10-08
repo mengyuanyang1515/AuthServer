@@ -5,6 +5,7 @@
 #include <QtEndian>
 #include "../common/auth.pb.h"
 #include "../common/common_def.h"
+#include <QQmlContext>
 
 LoginManager::LoginManager(QObject *parent) : QObject(parent), net_codec_(parent)
 {
@@ -178,12 +179,7 @@ void LoginManager::HandleRegisterAck(auth::RegisterAck ack)// todo:yangmengyuan 
     
     qDebug() << "trace log 3 LoginManager::HandleRegisterAck, is_ok:" << is_ok << " error_info:" << error_info.c_str();
     
-    if (is_ok) { // todo:yangmengyuan 客户端弹出一个提示，注册成功
-        
-        
-    } else { // todo:yangmengyuan 客户端弹出一个提示，注册失败
-        
-    }
+    emit registerSuccess(is_ok);
 }
 
 
@@ -207,16 +203,16 @@ void LoginManager::HandleLoginAck(QTcpSocket* socket, auth::LoginAck ack)// todo
     
     qDebug() << "trace log 8 LoginManager::HandleLoginAck, is_ok:" << is_ok << " token:" << token.c_str();
     
-    if (is_ok) {        
-        socket->close();
-        
+    socket->close();
+    
+    if (is_ok) {
         // 发消息到LandingServer
         state_ = LoginState_Landing;
         tcp_client_->connectToHost("localhost", 6060);
         
         token_ = token;
-    } else { // todo:yangmengyuan 客户端弹出登录失败
-        
+    } else {
+        emit loginSuccess(is_ok);
     }
 }
 
@@ -233,15 +229,10 @@ void LoginManager::SendLandingReq(QTcpSocket* socket)// todo:yangmengyuan #9
 void LoginManager::HandleLandingAck(auth::LandingAck ack)// todo:yangmengyuan #16
 {
     bool is_ok = ack.is_ok();
-    std::string error_info = ack.error_info();
     
-    qDebug() << "Received LandingAck, is_ok:" << is_ok << " error_info:" << error_info.c_str();
+    qDebug() << "trace log 16 Received LandingAck, is_ok:" << is_ok;
     
-    if (is_ok) { // todo:yangmengyuan 提示登录成功
-        
-    } else { // 提示登录失败 
-        
-    }
+    emit loginSuccess(is_ok);
 }
 
 

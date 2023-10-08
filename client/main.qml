@@ -13,13 +13,37 @@ ApplicationWindow {
     maximumHeight: 620
     title: qsTr("登录")
 
+    
+    
     Material.theme: Material.Dark
     Material.primary: Material.Blue
     Material.accent: Material.Pink
 
     ColumnLayout {
         anchors.centerIn: parent
-
+        Text {
+            id: loginStatusText
+            text: ""
+            Layout.fillWidth: true
+            Connections {
+                target: loginManager
+                onLoginSuccess: {
+                    if (success) {
+                        loginStatusText.text = "登录成功";
+                    } else {
+                        loginStatusText.text = "登录失败";
+                    }
+                }
+                onRegisterSuccess: {
+                    if (success) {
+                        loginStatusText.text = "注册成功";
+                        success=false;
+                    } else {
+                        loginStatusText.text = "注册失败";
+                    }
+                }
+            }
+        }
         TextField {
             id: usernameField
             placeholderText: qsTr("用户名")
@@ -66,6 +90,7 @@ ApplicationWindow {
                 loginManager.handleQuit(usernameField.text, passwordField.text);
             }
         }
+    
     }
 }
 
