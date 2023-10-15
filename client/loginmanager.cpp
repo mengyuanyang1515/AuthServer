@@ -96,8 +96,9 @@ void LoginManager::connected()
     {
     case LoginState_Register:
     {
-        
         SendRegisterReq(tcp_client_);
+        // 使命完成   
+        state_ = LoginState_None;
         break;
     }
     case LoginState_Login:
@@ -108,6 +109,8 @@ void LoginManager::connected()
     case LoginState_Landing:
     {
         SendLandingReq(tcp_client_);
+        // 使命完成   
+        state_ = LoginState_None;
         break;
     }
     default:
@@ -115,7 +118,7 @@ void LoginManager::connected()
     }
 }
 
-void LoginManager::disconnected()
+void LoginManager::disconnected() // 回调函数  异步
 {
     QTcpSocket *socket = (QTcpSocket*)sender();
     
@@ -123,7 +126,13 @@ void LoginManager::disconnected()
     
     net_codec_.UnRegisterSocket(socket);
     
-    //socket->deleteLater();
+    
+    if (state_ == LoginState_Login)
+    {
+        tcp_client_->connectToHost("localhost", 6060);
+        // 使命完成   
+        state_ = LoginState_None;
+    }
 }
 
 
@@ -212,17 +221,15 @@ void LoginManager::HandleLoginAck(QTcpSocket* socket, auth::LoginAck ack)// todo
     
     qDebug() << "trace log 8 LoginManager::HandleLoginAck, is_ok:" << is_ok << " token:" << token.c_str();
     
-    socket->close();
-    
     if (is_ok) {
         // 发消息到LandingServer
         state_ = LoginState_Landing;
-        tcp_client_->connectToHost("localhost", 6060);
-        
         token_ = token;
     } else {
         emit loginCallback(is_ok);
     }
+    
+    socket->close();
 }
 
 void LoginManager::SendLandingReq(QTcpSocket* socket)// todo:yangmengyuan #9

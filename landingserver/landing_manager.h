@@ -44,6 +44,8 @@ private:
     NetCodec net_codec_;
     
     std::map<std::string, QTcpSocket*> connected_clients_;
+    
+    bool is_auth_server_connected_ { false };
 };
 
 #endif // LANDING_MANAGER_H

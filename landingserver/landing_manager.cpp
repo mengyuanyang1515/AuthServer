@@ -30,6 +30,9 @@ void LandingManager::Initialize(){
     net_codec_.SetMessageCallback(std::bind(&LandingManager::HandleMessage, this
                                             , std::placeholders::_1, std::placeholders::_2
                                             , std::placeholders::_3, std::placeholders::_4));
+    
+    qDebug() << "在LandingManager::Initialize 调用";
+    tcp_client_->connectToHost("localhost", 5060);
 }
 
 void LandingManager::newConnection(){
@@ -60,8 +63,8 @@ void LandingManager::clientConnected(){
         net_codec_.RegisterSocket(socket);
         connect(socket,&QTcpSocket::readyRead,&net_codec_,&NetCodec::ReadyRead);
     }
-    
-    this->SendAuthReq(tcp_client_);
+
+    is_auth_server_connected_ = true;
 }
 
 void LandingManager::clientDisconnected(){
@@ -70,10 +73,7 @@ void LandingManager::clientDisconnected(){
     
     net_codec_.UnRegisterSocket(socket);
     
-    if (socket != tcp_client_)
-    {
-        socket->deleteLater();    
-    }
+    is_auth_server_connected_ = false;  
 }
 
 // 粘包结束以后的函数处理
@@ -119,7 +119,12 @@ void LandingManager::HandleLandingReq(QTcpSocket* socket, auth::LandingReq &req)
     
     qDebug() << "trace log 10 LandingManager::HandleLandingReq" << " token:" << token_.c_str();
     
-    tcp_client_->connectToHost("localhost", 5060);
+    if (is_auth_server_connected_ == true) {
+        this->SendAuthReq(tcp_client_);
+    }
+    else {
+        this->SendLandingAck(false, token_);
+    }
 }
 
 void LandingManager::SendLandingAck(bool is_ok, const std::string& token) // todo:yangmengyuan #15

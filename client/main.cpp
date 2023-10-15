@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     loginManager.setQmlEngine(&engine);
     engine.rootContext()->setContextProperty("loginManager", &loginManager);
     
-    engine.load(url);
+    engine.load(url);  // 加载（类似于加载配置文件）
     
     return app.exec();
 }
