@@ -59,10 +59,8 @@ void LandingManager::disconnected(){
 void LandingManager::clientConnected(){
     QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
     qDebug() << "从LandingServer连接到AuthServer成功，socket:" << socket << "tcp_client_:" << tcp_client_;
-    if(socket != nullptr){
-        net_codec_.RegisterSocket(socket);
-        connect(socket,&QTcpSocket::readyRead,&net_codec_,&NetCodec::ReadyRead);
-    }
+    net_codec_.RegisterSocket(socket);
+    connect(socket,&QTcpSocket::readyRead,&net_codec_,&NetCodec::ReadyRead);
 
     is_auth_server_connected_ = true;
 }
@@ -93,7 +91,6 @@ void LandingManager::HandleMessage(QTcpSocket *socket, unsigned int message_id, 
         auth::AuthAck authAck;
         authAck.ParseFromString(data);
         HandleAuthAck(authAck);
-        socket->close();
         break;
     }
     case MessageId::kQuitReq:
@@ -138,6 +135,8 @@ void LandingManager::SendLandingAck(bool is_ok, const std::string& token) // tod
     auto it = connected_clients_.find(token);
     if (it != connected_clients_.end())
     {
+        qDebug() << "trace log 15.1 LandingManager::SendLandingAck, token:" << token.c_str()
+                 << " socket:" << it->second;
         net_codec_.WriteMessage(MessageId::kLandingAck, data.c_str(), data.size(), it->second);
         connected_clients_.erase(it);
     }

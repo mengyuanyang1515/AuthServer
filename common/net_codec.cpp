@@ -44,13 +44,17 @@ void NetCodec::SetMessageCallback(MessageCallback message_callback)
 void NetCodec::ReadyRead()
 {
     qDebug() << "NetCodec调用ReadyRead3";
+    qDebug() << "NetCodec调用ReadyRead3.1";
     
     QTcpSocket *socket = (QTcpSocket*)sender();
+    qDebug() << "NetCodec调用ReadyRead3.2 socket:" << socket;
     auto it = tcp_socket_info_.find(socket);
     if (it != tcp_socket_info_.end())
     {
+        qDebug() << "NetCodec::ReadyRead 在map找到了";
         TcpSocketInfo& tcp_socket_info = it->second;
         tcp_socket_info.byte_array_.append(socket->read(kReadSocketLen));
+        qDebug() << "NetCodec::ReadyRead byte_array_.size:" << tcp_socket_info.byte_array_.size();
         if (tcp_socket_info.byte_array_.size() >= kHeaderLen + kMessageIdLen) // 2个字节的长度 和 4个字节的 message_id
         {
             // 需要处理大小端数据
@@ -69,6 +73,9 @@ void NetCodec::ReadyRead()
                 tcp_socket_info.byte_array_.remove(0, kHeaderLen + len);
             }
         }
+    }
+    else {
+        qDebug() << "NetCodec::ReadyRead 在map找不到";
     }
 }
 

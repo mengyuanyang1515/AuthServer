@@ -74,7 +74,6 @@ void LoginManager::handleQuit()
 
 void LoginManager::connected()
 {
-    qDebug() << "连接AuthServer成功";
     QTcpSocket* socket = qobject_cast<QTcpSocket*>(sender());
     
     if (socket == nullptr)
@@ -129,9 +128,9 @@ void LoginManager::disconnected() // 回调函数  异步
     
     if (state_ == LoginState_Login)
     {
-        tcp_client_->connectToHost("localhost", 6060);
         // 使命完成   
-        state_ = LoginState_None;
+        state_ = LoginState_Landing;
+        tcp_client_->connectToHost("localhost", 6060);
     }
 }
 
@@ -223,7 +222,6 @@ void LoginManager::HandleLoginAck(QTcpSocket* socket, auth::LoginAck ack)// todo
     
     if (is_ok) {
         // 发消息到LandingServer
-        state_ = LoginState_Landing;
         token_ = token;
     } else {
         emit loginCallback(is_ok);

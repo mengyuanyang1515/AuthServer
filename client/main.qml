@@ -131,17 +131,17 @@ ApplicationWindow {
             Layout.fillWidth: true
         }
 
-        Connections {
-            target: loginManager
+//        Connections {
+//            target: loginManager
             
-            onQuitCallback: {
-                if (success) {
-                    loginStatusText.text = "退出成功";
-                } else {
-                    loginStatusText.text = "退出失败";
-                }
-            }
-        }
+//            onQuitCallback: {
+//                if (success) {
+//                    loginStatusText.text = "退出成功";
+//                } else {
+//                    loginStatusText.text = "退出失败";
+//                }
+//            }
+//        }
 
         // 登录页面
         Component {
@@ -156,6 +156,7 @@ ApplicationWindow {
                         onLoginCallback: {
                             if (success) {
                                 loginStatusText.text = "登录成功";
+                                stackView.push(lobbyPage);
                             } else {
                                 loginStatusText.text = "登录失败";
                             }
@@ -258,15 +259,6 @@ ApplicationWindow {
                         spacing: 10 // 设置按钮之间的间距
         
                         Button {
-                            text: qsTr("注册")
-                            Material.accent: Material.Pink
-                            Layout.fillWidth: true
-                            onClicked: {
-                                loginManager.handleRegister(usernameField.text, passwordField.text);
-                            }
-                        }
-        
-                        Button {
                             text: qsTr("返回登录页面")
                             Material.accent: Material.Pink
                             Layout.fillWidth: true
@@ -275,11 +267,61 @@ ApplicationWindow {
                                 stackView.pop();
                             }
                         }
+                        Button {
+                            text: qsTr("注册")
+                            Material.accent: Material.Pink
+                            Layout.fillWidth: true
+                            onClicked: {
+                                loginManager.handleRegister(usernameField.text, passwordField.text);
+                            }
+                        }
                     }
                 }
             }
         }
 
+        //大厅界面
+        Component {
+            id: lobbyPage
+            Rectangle {
+                color: "black"
+                ColumnLayout {
+                    anchors.centerIn: parent
+                    Connections {
+                        target: loginManager
+                        
+                        onQuitCallback: {
+                            if (success) {
+                                loginStatusText.text = "退出成功: 退出成功";
+                            } else {
+                                loginStatusText.text = "退出失败: 退出成功";
+                            }
+                        }
+                    }
+                    Text {
+                        color: "white"
+                        text:"大厅界面"
+                        font.pixelSize: 30
+                        Layout.alignment: Qt.AlignCenter
+                    }
+                    Text {
+                        color: "white"
+                        id: registerStatusText
+                        text: "退出状态：None"
+                        Layout.fillWidth: true
+                    }
+                    Button {
+                        text: qsTr("退出")
+                        Material.accent: Material.Pink
+                        Layout.fillWidth: true
+                        onClicked: {
+                            // 切换回登录页面
+                            stackView.pop();
+                        }
+                    }
+                }
+            }
+        }
         initialItem: loginPage // 初始页面为登录页面
     }
 }

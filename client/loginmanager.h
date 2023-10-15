@@ -25,7 +25,6 @@ signals:
     void registerCallback(bool success);
     void loginCallback(bool success);
     void quitCallback(bool success);
-
     
 public:
     explicit LoginManager(QObject  *parent = nullptr);
